@@ -1,19 +1,14 @@
 import pygame
-import main
 
-screen_width = main.screen_width
-class tile():
-    def __init__(self,x,y):
-        self.tiles = pygame.sprite.Group()
-        self.x = x
-        self.y = y
-        self.width = screen_width/4
-        self.height = 40
-        self.create_tiles()
-    def create_tiles(self):
-        tile  = pygame.rect.Rect(self.x,self.y,self.width,self.height)
-        tiles = self.tiles.add(tile)
-        return tiles
+
+screen_width = 400
+class Tile(pygame.sprite.Sprite):
+    def __init__(self,x,y,size):
+        super().__init__()
+        self.image = pygame.Surface((size,size*2))
+        self.image.fill((0,0,0))
+        self.rect = self.image.get_rect(topleft = (x,y))
     def update(self):
-        self.y += 10
+        self.rect.y += 10
+       
         
