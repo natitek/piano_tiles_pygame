@@ -22,7 +22,7 @@ def draw_lines():
     
 # newTile = Tile(0,0,100)
 tilesGroup = pygame.sprite.Group()
-newTile = Tile((100) or (200),-200,100)
+newTile = Tile((100),-200,100)
 while running:
     # poll for events
     # pygame.QUIT event means the user clicked X to close your window
@@ -36,6 +36,7 @@ while running:
     # fill the screen with a color to wipe away anything from last frame
     screen.fill("white")
     if newTile.rect.y > screen_height:
+    
         if not(newTile.touched):
             game_over=True
             gameover.play()
