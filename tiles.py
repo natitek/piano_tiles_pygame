@@ -11,6 +11,6 @@ class Tile(pygame.sprite.Sprite):
         self.image.fill(self.color)
         self.rect = self.image.get_rect(topleft = (x,y))
     def update(self):
-        self.rect.y += 10
+        self.rect.y += 5
        
         

@@ -19,14 +19,16 @@ gameover=mixer.Sound("music/gameover.mp3")
 def draw_lines():
     for x in range(1,4):
         pygame.draw.lines(screen,"White",True,[(100*x,0),(100*x,screen_height)],2)
-    
-# newTile = Tile(0,0,100)
+def draw_circles():
+    for x in range(0,4):
+        pygame.draw.circle(screen,"yellow",(50+(100*x),500),10,5) 
+# tille = Tile(0,0,100)
 tilesGroup = pygame.sprite.Group()
 newTile = Tile((100) or (200),-200,100)
 while running:
     # poll for events
     # pygame.QUIT event means the user clicked X to close your window
-    keys=pygame.key.get_pressed()
+    keys=pygame.key.get_just_released()
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
@@ -35,89 +37,89 @@ while running:
     
     # fill the screen with a color to wipe away anything from last frame
     screen.fill("white")
-    if newTile.rect.y > screen_height:
-        if not(newTile.touched):
-            game_over=True
-            gameover.play()
+    if newTile.rect.y > 0:
+        for tille in tilesGroup.sprites():
+            if not(tille.touched) and tille.rect.y > screen_height:
+                game_over=True
+                gameover.play()
         x = random.randrange(0,4)
+        while 100*x==newTile.rect.x:
+            x = random.randrange(0,4)
         newTile = newTile = Tile((100*x),-200,100)
-        
-    
-    tilesGroup.add(newTile)
-    if(newTile.rect.y>0 and newTile.rect.y+100<screen_height):
-        if keys[pygame.K_a] and newTile.rect.x==0 and not(game_over) and not(newTile.touched):
-            touched.stop()
-            newTile.touched=True
-            for tile in tilesGroup.sprites():
-                newTile = newTile=Tile(0,newTile.rect.y,100,(80,80,80),newTile.touched)
+    tilesGroup.add(newTile)  
+    for tille in tilesGroup.sprites():
+        if(tille.rect.y>0 and tille.rect.y+100<screen_height):
+
+            if keys[pygame.K_a] and tille.rect.x==0 and not(game_over) and not(tille.touched) and tille.rect.y>300:
+                touched.stop()
+                tille.touched=True
+                tilesGroup.add(Tile(0,tille.rect.y,100,(80,80,80),tille.touched))
                 if tile.color==(0,0,0):
                     tile.kill()
-            touched.play()
-        if keys[pygame.K_s] and newTile.rect.x==100 and not(game_over) and not(newTile.touched):
-            touched.stop()
-            newTile.touched=True
-            for tile in tilesGroup.sprites():
-                newTile = newTile=Tile(100,newTile.rect.y,100,(80,80,80),newTile.touched)
+                touched.play()
+            if keys[pygame.K_s] and tille.rect.x==100 and not(game_over) and not(tille.touched) and tille.rect.y>300:
+                touched.stop()
+                tille.touched=True
+                tilesGroup.add(Tile(100,tille.rect.y,100,(80,80,80),tille.touched))
                 if tile.color==(0,0,0):
                     tile.kill()
-            touched.play()
-        if keys[pygame.K_d] and newTile.rect.x==200 and not(game_over) and not(newTile.touched):
-            touched.stop()
-            newTile.touched=True
-            for tile in tilesGroup.sprites():
-                newTile = newTile=Tile(200,newTile.rect.y,100,(80,80,80),newTile.touched)
+                touched.play()
+            if keys[pygame.K_d] and tille.rect.x==200 and not(game_over) and not(tille.touched) and tille.rect.y>300:
+                touched.stop()
+                tille.touched=True          
+                tilesGroup.add(Tile(200,tille.rect.y,100,(80,80,80),tille.touched))
                 if tile.color==(0,0,0):
                     tile.kill()
-            touched.play()
-        if keys[pygame.K_f] and newTile.rect.x==300 and not(game_over) and not(newTile.touched):
-            touched.stop()
-            newTile.touched=True
-            for tile in tilesGroup.sprites():
-                newTile = newTile=Tile(300,newTile.rect.y,100,(80,80,80),newTile.touched)
+                touched.play()
+            if keys[pygame.K_f] and tille.rect.x==300 and not(game_over) and not(tille.touched) and tille.rect.y>300:
+                touched.stop()
+                tille.touched=True
+                tilesGroup.add(Tile(300,tille.rect.y,100,(80,80,80),tille.touched))
                 if tile.color==(0,0,0):
                     tile.kill()
-            touched.play()
-        if (keys[pygame.K_s] or keys[pygame.K_d] or keys[pygame.K_f]) and newTile.rect.x==0 and not(game_over):
-            game_over=True
-            gameover.play()
-            if keys[pygame.K_s]:
-                tilesGroup.add(Tile(100,newTile.rect.y,100,(255,0,0)))
-            elif keys[pygame.K_d]:
-                tilesGroup.add(Tile(200,newTile.rect.y,100,(255,0,0)))
-            elif keys[pygame.K_f]:
-                tilesGroup.add(Tile(300,newTile.rect.y,100,(255,0,0)))
-        if (keys[pygame.K_a] or keys[pygame.K_d] or keys[pygame.K_f]) and newTile.rect.x==100 and not(game_over):
-            game_over=True
-            gameover.play()
-            if keys[pygame.K_a]:
-                tilesGroup.add(Tile(0,newTile.rect.y,100,(255,0,0)))
-            elif keys[pygame.K_d]:
-                tilesGroup.add(Tile(200,newTile.rect.y,100,(255,0,0)))
-            elif keys[pygame.K_f]:
-                tilesGroup.add(Tile(300,newTile.rect.y,100,(255,0,0)))
-        if (keys[pygame.K_s] or keys[pygame.K_a] or keys[pygame.K_f]) and newTile.rect.x==200 and not(game_over):
-            game_over=True
-            gameover.play()
-            if keys[pygame.K_s]:
-                tilesGroup.add(Tile(100,newTile.rect.y,100,(255,0,0)))
-            elif keys[pygame.K_a]:
-                tilesGroup.add(Tile(0,newTile.rect.y,100,(255,0,0)))
-            elif keys[pygame.K_f]:
-                tilesGroup.add(Tile(300,newTile.rect.y,100,(255,0,0)))
-        if (keys[pygame.K_s] or keys[pygame.K_d] or keys[pygame.K_a]) and newTile.rect.x==300 and not(game_over):
-            game_over=True
-            gameover.play()
-            if keys[pygame.K_s]:
-                tilesGroup.add(Tile(100,newTile.rect.y,100,(255,0,0)))
-            elif keys[pygame.K_d]:
-                tilesGroup.add(Tile(200,newTile.rect.y,100,(255,0,0)))
-            elif keys[pygame.K_a]:
-                tilesGroup.add(Tile(0,newTile.rect.y,100,(255,0,0)))
+                touched.play()
+            if (keys[pygame.K_s] or keys[pygame.K_d] or keys[pygame.K_f]) and tille.rect.x==0 and not(game_over) and tille.rect.y>300:
+                game_over=True
+                gameover.play()
+                if keys[pygame.K_s]:
+                    tilesGroup.add(Tile(100,tille.rect.y,100,(255,0,0)))
+                elif keys[pygame.K_d]:
+                    tilesGroup.add(Tile(200,tille.rect.y,100,(255,0,0)))
+                elif keys[pygame.K_f]:
+                    tilesGroup.add(Tile(300,tille.rect.y,100,(255,0,0)))
+            if (keys[pygame.K_a] or keys[pygame.K_d] or keys[pygame.K_f]) and tille.rect.x==100 and not(game_over) and tille.rect.y>300:
+                game_over=True
+                gameover.play()
+                if keys[pygame.K_a]:
+                    tilesGroup.add(Tile(0,tille.rect.y,100,(255,0,0)))
+                elif keys[pygame.K_d]:
+                    tilesGroup.add(Tile(200,tille.rect.y,100,(255,0,0)))
+                elif keys[pygame.K_f]:
+                    tilesGroup.add(Tile(300,tille.rect.y,100,(255,0,0)))
+            if (keys[pygame.K_s] or keys[pygame.K_a] or keys[pygame.K_f]) and tille.rect.x==200 and not(game_over) and tille.rect.y>300:
+                game_over=True
+                gameover.play()
+                if keys[pygame.K_s]:
+                    tilesGroup.add(Tile(100,tille.rect.y,100,(255,0,0)))
+                elif keys[pygame.K_a]:
+                    tilesGroup.add(Tile(0,tille.rect.y,100,(255,0,0)))
+                elif keys[pygame.K_f]:
+                    tilesGroup.add(Tile(300,tille.rect.y,100,(255,0,0)))
+            if (keys[pygame.K_s] or keys[pygame.K_d] or keys[pygame.K_a]) and tille.rect.x==300 and not(game_over) and tille.rect.y>300:
+                game_over=True
+                gameover.play()
+                if keys[pygame.K_s]:
+                    tilesGroup.add(Tile(100,tille.rect.y,100,(255,0,0)))
+                elif keys[pygame.K_d]:
+                    tilesGroup.add(Tile(200,tille.rect.y,100,(255,0,0)))
+                elif keys[pygame.K_a]:
+                    tilesGroup.add(Tile(0,tille.rect.y,100,(255,0,0)))
     if not(game_over):
-        newTile.update()
+        for tile in tilesGroup.sprites():
+            tile.update()
     tilesGroup.draw(screen)
     draw_lines()
-    
+    draw_circles()
     # RENDER YOUR GAME HERE
     
 
