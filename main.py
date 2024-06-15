@@ -25,7 +25,7 @@ themusic = []
 converted = []    
 def load_piano():
     for x in range(52,64):
-     newsound = mixer.Sound("music/" + (str)(x) + ".wav")
+     newsound = mixer.Sound("music/" + (str)(x) + ".mp3")
      themusic.append(newsound)
      
      
@@ -40,7 +40,7 @@ def play_piano():
     themusic[piano_index].play()
     print(piano_index)
     piano_index += 1
-    if piano_index == 11:
+    if piano_index == len(sample_music)-1:
         piano_index = 0
     
         
@@ -169,7 +169,7 @@ while running:
             play_piano()
             # print(tile.rect.y)
     tilesGroup.draw(screen)
-    draw_lines()
+    # draw_lines()
     draw_circles()
     
     # RENDER YOUR GAME HERE
