@@ -24,7 +24,7 @@ def draw_circles():
         pygame.draw.circle(screen,"yellow",(50+(100*x),500),10,5) 
 # tille = Tile(0,0,100)
 tilesGroup = pygame.sprite.Group()
-newTile = Tile((100) or (200),-200,100)
+newTile = Tile((100),-200,100)
 while running:
     # poll for events
     # pygame.QUIT event means the user clicked X to close your window
@@ -42,6 +42,7 @@ while running:
             if not(tille.touched) and tille.rect.y > screen_height:
                 game_over=True
                 gameover.play()
+                tille.kill()
         x = random.randrange(0,4)
         while 100*x==newTile.rect.x:
             x = random.randrange(0,4)
