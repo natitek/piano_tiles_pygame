@@ -15,7 +15,37 @@ running = True
 game_over=False
 touched=mixer.Sound("music/touched.mp3")
 gameover=mixer.Sound("music/gameover.mp3")
+
+piano_index = (int)(0)
+
+
+sample_music =['D', 'A', 'B', 'F#', 'E', 'B', 'A', 'F#', 'G', 'D', 'A', 'F#',]
+lookup = ['A','A#','B','C','C#','D','D#','E','F','F#','G','G#']
+themusic = []
+converted = []    
+def load_piano():
+    for x in range(52,64):
+     newsound = mixer.Sound("music/" + (str)(x) + ".mp3")
+     themusic.append(newsound)
+     
+     
+def convert_piano():
+    for s in sample_music:
+        for l,x in enumerate(lookup):#l is index x is item
+            if s == x:
+                converted.append(l)
+
+def play_piano():
+    global piano_index
+    themusic[piano_index].play()
+    print(piano_index)
+    piano_index += 1
+    if piano_index == len(sample_music)-1:
+        piano_index = 0
     
+        
+        
+
 def draw_lines():
     for x in range(1,4):
         pygame.draw.lines(screen,"White",True,[(100*x,0),(100*x,screen_height)],2)
@@ -24,7 +54,9 @@ def draw_circles():
         pygame.draw.circle(screen,"yellow",(50+(100*x),500),10,5) 
 # tille = Tile(0,0,100)
 tilesGroup = pygame.sprite.Group()
-newTile = Tile((100),-200,100)
+newTile = Tile(100,-200,100)
+load_piano()
+convert_piano()
 while running:
     # poll for events
     # pygame.QUIT event means the user clicked X to close your window
@@ -57,28 +89,28 @@ while running:
                 tilesGroup.add(Tile(0,tille.rect.y,100,(80,80,80),tille.touched))
                 if tile.color==(0,0,0):
                     tile.kill()
-                touched.play()
+                #touched.play()
             if keys[pygame.K_s] and tille.rect.x==100 and not(game_over) and not(tille.touched) and tille.rect.y>300:
                 touched.stop()
                 tille.touched=True
                 tilesGroup.add(Tile(100,tille.rect.y,100,(80,80,80),tille.touched))
                 if tile.color==(0,0,0):
                     tile.kill()
-                touched.play()
+                #touched.play()
             if keys[pygame.K_d] and tille.rect.x==200 and not(game_over) and not(tille.touched) and tille.rect.y>300:
                 touched.stop()
                 tille.touched=True          
                 tilesGroup.add(Tile(200,tille.rect.y,100,(80,80,80),tille.touched))
                 if tile.color==(0,0,0):
                     tile.kill()
-                touched.play()
+                #touched.play()
             if keys[pygame.K_f] and tille.rect.x==300 and not(game_over) and not(tille.touched) and tille.rect.y>300:
                 touched.stop()
                 tille.touched=True
                 tilesGroup.add(Tile(300,tille.rect.y,100,(80,80,80),tille.touched))
                 if tile.color==(0,0,0):
                     tile.kill()
-                touched.play()
+                #touched.play()
             if (keys[pygame.K_s] or keys[pygame.K_d] or keys[pygame.K_f]) and tille.rect.x==0 and not(game_over) and tille.rect.y>300:
                 game_over=True
                 gameover.play()
@@ -118,9 +150,16 @@ while running:
     if not(game_over):
         for tile in tilesGroup.sprites():
             tile.update()
+    for tile in tilesGroup:
+        
+        if tile.rect.y >= 500 and tile.rect.y < 505:
+            pygame.mixer.stop()
+            play_piano()
+            # print(tile.rect.y)
     tilesGroup.draw(screen)
-    draw_lines()
+    # draw_lines()
     draw_circles()
+    
     # RENDER YOUR GAME HERE
     
 
